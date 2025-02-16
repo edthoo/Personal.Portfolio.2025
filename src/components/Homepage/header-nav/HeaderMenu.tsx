@@ -8,12 +8,25 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { useState } from "react";
 
 export const HeaderMenu = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleMenuClick = (sectionId: string) => {
+    setIsOpen(false);
+    const section = document.getElementById(sectionId);
+    if (section) {
+      setTimeout(() => {
+        section.scrollIntoView({ behavior: "smooth" });
+      }, 500);
+    }
+  };
+
   return (
     <div>
-      <Drawer>
-        <DrawerTrigger>
+      <Drawer open={isOpen} onClose={() => setIsOpen(false)}>
+        <DrawerTrigger onClick={() => setIsOpen(!isOpen)}>
           <Menu />
         </DrawerTrigger>
 
@@ -24,9 +37,24 @@ export const HeaderMenu = () => {
           </DrawerHeader>
 
           <div className="flex flex-col gap-4 px-6 py-8 justify-center items-center">
-            <a className="uppercase hover:cursor-pointer">About</a>
-            <a className="uppercase hover:cursor-pointer">Projects</a>
-            <a className="uppercase hover:cursor-pointer">Contact</a>
+            <a
+              onClick={() => handleMenuClick("about-section")}
+              className="uppercase hover:cursor-pointer"
+            >
+              About
+            </a>
+            <a
+              onClick={() => handleMenuClick("project-section")}
+              className="uppercase hover:cursor-pointer"
+            >
+              Projects
+            </a>
+            <a
+              onClick={() => handleMenuClick("contact-section")}
+              className="uppercase hover:cursor-pointer"
+            >
+              Contact
+            </a>
           </div>
         </DrawerContent>
       </Drawer>
